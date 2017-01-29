@@ -1,0 +1,45 @@
+//—оздание таблицы —туденты:
+CREATE TABLE Students (nomer_zach_knigi VARCHAR(30),
+Nomer_grypu VARCHAR(30),
+familia VARCHAR(30),
+umia VARCHAR (30),
+otchestvo VARCHAR(30),
+CONSTRAINT nomer_zach_knigi_PK primary key (nomer_zach_knigi));
+//ѕример заполнени€ таблицы записью:
+INSERT INTO Students VALUES
+(1,ТPROGТ,ТIvanovТ,ТArtemТ,ТIvanovichТ);
+//—оздание таблицы  омнаты: 
+CREATE TABLE Rooms (
+nomer_obshej VARCHAR(10),
+CONSTRAINT check_nomer_obshej CHECK
+(nomer_obshej IN ( СXAU5Т,ТXAU6Т,ТXAU7Т,ТXAU8Т)),
+nomer_komnatu INT,
+nomer_etaja CHAR(1),
+CONSTRAINT check_nomer_etaja CHECK
+(nomer_etaja > 1 and nomer_etaja < 5),
+vmestimost CHAR(1),
+(vmestimost > 1 and vmestimost < 4));
+//ƒобавление ключа в таблицу  омнаты:
+ALTER TABLE Rooms
+ADD CONSTRAINT rooms_key primary key (nomer_obshej,nomer_komnatu);
+//—оздание таблицы ∆урнал:
+CREATE TABLE Jurnal (
+nomer_zach_knigi VARCHAR(30),
+nomer_obshej VARCHAR(10),
+CONSTRAINT check_n_ob CHECK
+(nomer_obshej IN ( СXAU5Т,ТXAU6Т,ТXAU7Т,ТXAU8Т)),
+nomer_komnatu INT);
+//ƒобавление полей в таблицу ∆урнал:
+ALTER TABLE Jurnal add(
+data_vselenia DATE);
+ALTER TABLE Jurnal add(
+data_Vivselenia DATE);
+//”становка ограничени€ на дату:
+ALTER TABLE Jurnal add(
+CONSTRAINT check_data_vs CHECK
+(data_vselenia> data_Vivselenia);
+//”становка сложного ключа в таблице ∆урнал:
+ALTER TABLE Jurnal ADD PRIMARY KEY (nomer_zach_knigi, nomer_obshej, nomer_komnatu);
+//”становка внешних ключей:
+ALTER TABLE Jurnal ADD FOREIGN KEY (nomer_zach_knigi) REFERENCES Students (nomer_zach_knigi);
+ALTER TABLE Jurnal ADD PRIMARY KEY (nomer_obshej, nomer_komnatu) REFERENCES Rooms (nomer_obshej, nomer_komnatu);
